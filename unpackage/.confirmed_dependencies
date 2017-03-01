@@ -1,0 +1,62 @@
+{
+	"index.html": {
+		"resources": [
+			"js/mui.min.js",
+			"css/mui.min.css",
+			"css/mui.css",
+			"dist/css/bootstrap.min.css",
+			"dist/js/bootstrap.min.js",
+			"dist/js/bootstrap.js",
+			"dist/js/npm.js",
+			"fonts/mui.ttf",
+			"css/iconfont.ttf",
+			"css/iconfont.css",
+			"list.html",
+			"read.html",
+			"my.html"
+		],
+		"refer": [
+			"detail.html",
+			"list.html",
+			"read.html",
+			"media1.html",
+			"my.html"
+		]
+	},
+	"detail.html": {
+		"resources": [
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css"
+		]
+	},
+	"list.html": {
+		"resources": [
+			"js/mui.min.js",
+			"css/mui.min.css",
+			"fonts/mui.ttf"
+		],
+		"refer": [
+			"detail.html"
+		]
+	},
+	"read.html": {
+		"resources": [
+			"js/mui.min.js",
+			"css/mui.min.css"
+		]
+	},
+	"media1.html": {
+		"resources": [
+			"js/mui.min.js",
+			"css/mui.min.css"
+		]
+	},
+	"my.html": {
+		"resources": [
+			"fonts/mui.ttf",
+			"js/mui.min.js",
+			"css/mui.min.css"
+		]
+	}
+}

@@ -1,0 +1,158 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<!--<div class="mui-content">-->
+		<div id="refreshContainer" class="mui-content mui-scroll-wrapper">
+
+			<div id="slider" class="mui-slider">
+				<div class="mui-slider-group mui-slider-loop">
+
+				</div>
+				<div class="mui-slider-indicator">
+
+				</div>
+			</div>
+
+			<!--列表-->
+			<ul class="mui-table-view" id="myUl"></ul>
+		</div>
+		
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">
+			// 列表数据
+			var listArray;
+			mui.plusReady(function() {
+				// 轮播图数据请求	
+				mui.ajax("http://c.m.163.com/nc/article/headline/T1348647853363/0-20.html?from=toutiao&passport=&devId=OPdeGFsVSojY0ILFe6009pLR%2FMsg7TLJv5TjaQQ6Hpjxd%2BaWU4dx4OOCg2vE3noj&size=20&version=5.5.3&spever=false&net=wifi&lat=&lon=&ts=1456985286&sign=%2BY9lXIDh3W7j69unWYNEiSG3So2sMceBy%2B%2FiFf2ZfHh48ErR02zJ6%2FKXOnxX046I&encryption=1&canal=appstore", {
+					dataType: "json",
+					success: function(data) {
+						var arr = data.T1348647853363;
+						var ads = arr[0].ads;
+						var length1 = ads.length;
+						// 添加最后一张
+						var last = ads[length1 - 1].imgsrc;
+						var lunboItem = ' <div class="mui-slider-item"><a href="#"><img src="' + last + '"></a></div>';
+						$(".mui-slider-group").append(lunboItem);
+						for(var i = 0; i < ads.length; i++) {
+							// 添加轮播图片
+							var imgsrc = ads[i].imgsrc;
+							var title = ads[i].title;
+							var lunboItem = ' <div class="mui-slider-item"><a href="#"><img src="' + imgsrc + '"></a></div>';
+							$(".mui-slider-group").append(lunboItem);
+
+							// 添加小白点 轮播指示器
+							var xiaobaidian = '<div class="mui-indicator"></div>';
+							$(".mui-slider-indicator").append(xiaobaidian);
+
+						}
+
+						// 添加第一张
+						var first = ads[0].imgsrc;
+						var lunboItem = ' <div class="mui-slider-item"><a href="#"><img src="' + first + '"></a></div>';
+						$(".mui-slider-group").append(lunboItem);
+
+						var gallery = mui('.mui-slider');
+						gallery.slider({
+							interval: 1000 //自动轮播周期，若为0则不自动播放，默认为0；
+						});
+					},
+					error: function() {
+						console.log("轮播图失败");
+					}
+				});
+
+			});
+
+			function getListData(type) {
+				// 列表数据的网络请求
+				mui.ajax("http://c.m.163.com/nc/article/headline/T1348647853363/30-20.html?from=toutiao&passport=&devId=OPdeGFsVSojY0ILFe6009pLR%2FMsg7TLJv5TjaQQ6Hpjxd%2BaWU4dx4OOCg2vE3noj&size=20&version=5.5.3&spever=false&net=wifi&lat=&lon=&ts=1456985878&sign=oDwq9mBweKUtUuiS%2FPvB015PyTDKHSxuyuVq2076XQB48ErR02zJ6%2FKXOnxX046I&encryption=1&canal=appstore", {
+						dataType: "json",
+						success: function(data) {
+							if(type == "down") {
+								listArray = data.T1348647853363;
+								$("#myUl").html("");
+								for(var i = 0; i < listArray.length; i++) {
+									var imgStr = listArray[i].img;
+									var digestStr = listArray[i].title;
+									var xxx = listArray[i].source;
+									var liStr = '<li class="mui-table-view-cell mui-media"><a href="javascript:;"><img class="mui-media-object mui-pull-right" src="' + imgStr + '"><div class="mui-media-body">' + xxx + '<p class="mui-ellipsis">' + digestStr + '</p></div></a></li>';
+									$("#myUl").append(liStr);
+								}
+							}
+							if(type == "up") {
+								var arr = data.T1348647853363;
+								listArray = listArray.concat(arr);
+								for(var i = 0; i < arr.length; i++) {
+									var imgStr = arr[i].img;
+									var digestStr = arr[i].title;
+									var xxx = arr[i].source;
+									var liStr = '<li class="mui-table-view-cell mui-media"><a href="javascript:;"><img class="mui-media-object mui-pull-right" src="' + imgStr + '"><div class="mui-media-body">' + xxx + '<p class="mui-ellipsis">' + digestStr + '</p></div></a></li>';
+									$("#myUl").append(liStr);
+								}
+							}
+							cellDianji();
+							mui("#refreshContainer").pullRefresh().endPulldownToRefresh();
+							mui("#refreshContainer").pullRefresh().endPullupToRefresh();
+						},
+					error: function() {
+						console.log("失败");
+					}
+
+				
+				}
+			)};
+
+			// table-view cell 的点击事件
+			function cellDianji() {
+				//table-view cell的点击事件
+				mui(".mui-table-view").on("tap", ".mui-table-view-cell", function() {
+					var a = $(this).index();
+					mui.openWindow({
+						url: "detail.html",
+						id: "detail",
+						extras: {
+							newsId: listArray[a].id,
+							biaoti: listArray[a].source
+						}
+					});
+				});
+			}
+
+			mui.init({
+				pullRefresh: {
+					container: "#refreshContainer",
+					up: {
+						height: 50,
+						auto: false,
+						contentrefresh: "正在加载。。。",
+						contentnomore: "已经是最新数据了",
+						callback: function() {
+							//请求数据
+							getListData("up");
+						}
+					},
+					down: {
+						height: 50,
+						auto: true,
+						contentrefresh: "正在刷新",
+						contentnomore: "请求失败",
+						callback: function() {
+							//请求数据
+							getListData("down");
+						}
+					}
+				}
+			});
+		</script>
+	</body>
+
+</html>

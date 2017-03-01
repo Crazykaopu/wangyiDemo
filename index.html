@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="js/mui.min.js"></script>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="css/iconfont.css" />
+		<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+		<script type="text/javascript" charset="utf-8">
+			mui.init({
+				subpages: [{
+					url: "my.html",
+					id: "my",
+					styles: {
+						top: "44px",
+						bottom: "44px"
+					}
+				}, {
+					url: "media1.html",
+					id: "media1",
+					styles: {
+						top: "44px",
+						bottom: "44px"
+					}
+				}, {
+					url: "read.html",
+					id: "read",
+					styles: {
+						top: "44px",
+						bottom: "44px"
+					}
+				}, {
+					url: "list.html",
+					id: "list",
+					styles: {
+						top: "44px",
+						bottom: "44px"
+					}
+				}]
+			});
+			mui.plusReady(function() {
+
+				setTimeout(function() {
+					var list = plus.webview.getWebviewById("list");
+					var read = plus.webview.getWebviewById("read");
+					var media1 = plus.webview.getWebviewById("media1");
+					var my = plus.webview.getWebviewById("my");
+
+					plus.webview.show(list);
+					plus.webview.hide(read);
+					plus.webview.hide(media1);
+					plus.webview.hide(my);
+				}, 100);
+				// bar-tab 的点击事件
+				mui(".mui-bar-tab").on("tap", ".mui-tab-item", function() {
+
+					var a = $(this).index();
+					var list = plus.webview.getWebviewById("list");
+					var read = plus.webview.getWebviewById("read");
+					var media1 = plus.webview.getWebviewById("media1");
+					var my = plus.webview.getWebviewById("my");
+					switch(a) {
+						case 0:
+							plus.webview.show(list);
+							plus.webview.hide(read);
+							plus.webview.hide(media1);
+							plus.webview.hide(my);
+							break;
+						case 1:
+							plus.webview.show(read);
+							plus.webview.hide(list);
+							plus.webview.hide(media1);
+							plus.webview.hide(my);
+							break;
+						case 2:
+							plus.webview.show(media1);
+							plus.webview.hide(list);
+							plus.webview.hide(read);
+							plus.webview.hide(my);
+							break;
+						case 3:
+							plus.webview.show(my);
+							plus.webview.hide(list);
+							plus.webview.hide(read);
+							plus.webview.hide(media1);
+							break;
+						default:
+							break;
+					}
+
+				});
+
+			});
+
+			//监听网络状态
+		</script>
+	</head>
+
+	<body>
+
+		<header class="mui-bar mui-bar-nav" style="background: #dd3137;">
+			<h1 class="mui-title" style="color: white;">网易新闻</h1>
+		</header>
+
+		<nav class="mui-bar mui-bar-tab">
+			<a class="mui-tab-item mui-active">
+				<span class="iconfont icon-xinwen"></span>
+				<span class="mui-tab-label">新闻</span>
+			</a>
+			<a class="mui-tab-item">
+				<span class="iconfont icon-yuedu"></span>
+				<span class="mui-tab-label">阅读</span>
+			</a>
+			<a class="mui-tab-item">
+				<span class="iconfont icon-shiting"></span>
+				<span class="mui-tab-label">视听</span>
+			</a>
+			<a class="mui-tab-item">
+				<span class="iconfont icon-wode"></span>
+				<span class="mui-tab-label">我的</span>
+			</a>
+		</nav>
+
+	</body>
+
+</html>
